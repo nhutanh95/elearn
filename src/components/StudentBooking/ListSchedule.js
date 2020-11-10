@@ -20,6 +20,7 @@ const ListSchedule = ({
 	onBookStudyTimeID,
 	onBookDate,
 	modalRef,
+	onTouchBooking,
 }) => {
 	const [scheduleList, setSchedule] = useState([]);
 	const [loading, setLoading] = useState(false);
@@ -40,21 +41,26 @@ const ListSchedule = ({
 	) => {
 		setOpening(true);
 		try {
-			const res = await getLessonBookAPI({ StudyTimeID, Date: date, });
+			const res = await getLessonBookAPI({ StudyTimeID, Date: date });
 			if (res.Code === 1) {
-				handleBooking(
-					StudyTimeID,
-					LessionName,
-					TeacherUID,
-					TeacherIMG,
-					TeacherName,
-					Rate,
-					date,
-					start,
-					end,
-					BookingID,
-				);
-				$(modalRef.current).modal('show');
+				setTimeout(() => {
+					handleBooking(
+						StudyTimeID,
+						LessionName,
+						TeacherUID,
+						TeacherIMG,
+						TeacherName,
+						Rate,
+						date,
+						start,
+						end,
+						BookingID,
+					);
+				}, 100);
+				// $(modalRef.current).modal('show');
+				setTimeout(() => {
+					onTouchBooking && onTouchBooking();
+				}, 200);
 			} else {
 				toast.error(
 					res?.Message ??

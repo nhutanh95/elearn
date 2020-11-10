@@ -60,7 +60,7 @@ const nationArr = [
 const initialState = {
 	nation: [],
 	gender: genderArr[0],
-	levelPurpose: [], 
+	levelPurpose: [],
 	selectedLevelPurpose: [],
 	date: new Date(),
 	startTime: dayjs(new Date())
@@ -95,7 +95,7 @@ const initialOnBookState = {
 };
 
 const reducer = (prevState, { type, payload }) => {
-		switch (type) {
+	switch (type) {
 		case 'STATE_CHANGE': {
 			return {
 				...prevState,
@@ -418,15 +418,18 @@ const BookingLesson = () => {
 		initCalendar();
 		fetchListLevelPurpose();
 		let rs = dayjs().isSame(dayjs(state.date), 'date')
-		? new Date().setHours(new Date().getHours() + 1)
-		: new Date().setHours(5);
+			? new Date().setHours(new Date().getHours() + 1)
+			: new Date().setHours(5);
 
 		if (rs % 3600000 > 0) {
 			rs = rs + 3600000 - (rs % 3600000);
-		   }
+		}
 
-		dispatch({ type: 'STATE_CHANGE', payload: { key: 'startTime', value: new Date(rs)} });
-		
+		dispatch({
+			type: 'STATE_CHANGE',
+			payload: { key: 'startTime', value: new Date(rs) },
+		});
+
 		return () => {
 			modalRef.current && (modalRef.current = false);
 		};
@@ -504,7 +507,7 @@ const BookingLesson = () => {
 											}}
 										/>
 									</div>
-									
+
 									<div className="col-sm-12 col-md-6 item">
 										<Select
 											isMulti
@@ -631,7 +634,6 @@ const BookingLesson = () => {
 										/>
 									</div>
 
-
 									<div className="col-sm-4 item search-btn-group">
 										<a
 											href={'#'}
@@ -728,6 +730,21 @@ const BookingLesson = () => {
 															</div>
 														</a>
 														<div className="tutor-schedule d-block custom-student">
+															<BookingLessonModal
+																style={{ color: '#000', textAlign: 'left' }}
+																StudyTimeID={stateBookLesson.StudyTimeID}
+																LessionName={stateBookLesson.LessionName}
+																TeacherUID={stateBookLesson.TeacherUID}
+																TeacherIMG={stateBookLesson.TeacherIMG}
+																TeacherName={stateBookLesson.TeacherName}
+																Rate={stateBookLesson.Rate}
+																date={stateBookLesson.date}
+																start={stateBookLesson.start}
+																end={stateBookLesson.end}
+																BookingID={stateBookLesson.BookingID}
+																onBook={onBook}
+																ref={modalRef}
+															/>
 															<ul className="ul-schedule">
 																<ListSchedule
 																	onBookStudyTimeID={onBookState.StudyTimeID}
@@ -743,6 +760,9 @@ const BookingLesson = () => {
 																	End={state.endTime}
 																	handleBooking={onHandleBooking}
 																	modalRef={modalRef}
+																	onTouchBooking={() => {
+																		$(modalRef.current).modal('show');
+																	}}
 																/>
 															</ul>
 														</div>
@@ -772,22 +792,6 @@ const BookingLesson = () => {
 							</div>
 						</div>
 					</div>
-
-					<BookingLessonModal
-						style={{ color: '#000', textAlign: 'left' }}
-						StudyTimeID={stateBookLesson.StudyTimeID}
-						LessionName={stateBookLesson.LessionName}
-						TeacherUID={stateBookLesson.TeacherUID}
-						TeacherIMG={stateBookLesson.TeacherIMG}
-						TeacherName={stateBookLesson.TeacherName}
-						Rate={stateBookLesson.Rate}
-						date={stateBookLesson.date}
-						start={stateBookLesson.start}
-						end={stateBookLesson.end}
-						BookingID={stateBookLesson.BookingID}
-						onBook={onBook}
-						ref={modalRef}
-					/>
 
 					<ListNationModal selectNation={onSelectNation} />
 					<ToastContainer />

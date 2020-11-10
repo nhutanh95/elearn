@@ -43,7 +43,7 @@ const BookingLessonModal = (
 	};
 
 	const getLessonToBookingAPI = async () => {
-		const res = await getLessonBookAPI({ StudyTimeID, Date: date, });
+		const res = await getLessonBookAPI({ StudyTimeID, Date: date });
 		if (res.Code === 1) {
 			setBookState({
 				...res.Data,
